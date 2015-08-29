@@ -1,0 +1,38 @@
+package com.example.proyecto015;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
+
+// En nuestro problema implementaremos una nueva clase llamada 
+// AdminSQLiteOpenHelper que herede de la clase SQLiteOpenHelper:
+
+public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
+
+	//En el constructor solo llamamos al constructor de la clase padre pasando los datos 
+	//que llegan en los parámetros:
+	
+	public AdminSQLiteOpenHelper(Context context, String nombre, CursorFactory factory, int version) {
+        super(context, nombre, factory, version);
+    }
+
+	// En el método onCreate procedemos a crear la tabla votantes con los cuatro campos 
+	// respectivos y definiendo el campo dni como primary key:
+	
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("create table votantes(dni integer primary key, nombre text, colegio text, nromesa integer)");
+    }
+    
+    // En el método onUpgrade procedemos a borrar la tabla votantes y crear nuevamente
+    // la tabla (en este caso con la misma estructura pero podría ser otra en un caso más
+    // real:
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int versionAnte, int versionNue) {
+        db.execSQL("drop table if exists votantes");
+        db.execSQL("create table votantes(dni integer primary key, nombre text, colegio text, nromesa integer)");        
+    }   
+	
+}
